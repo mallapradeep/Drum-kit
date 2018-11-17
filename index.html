@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS-DRUM-KIT</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="keys">
+        <div class="key" data-key="65">
+            <kbd>A</kbd>
+            <span class="sound">boom</span>
+        </div>
+        <div class="key" data-key="83">
+            <kbd>S</kbd>
+            <span class="sound">hihat</span>
+        </div> <div class="key" data-key="68">
+            <kbd>D</kbd>
+            <span class="sound">hitom</span>
+        </div> <div class="key" data-key="70">
+            <kbd>F</kbd>
+            <span class="sound">lowtom</span>
+        </div> <div class="key" data-key="71">
+            <kbd>G</kbd>
+            <span class="sound">ride</span>
+        </div> <div class="key" data-key="72">
+            <kbd>H</kbd>
+            <span class="sound">ridebell</span>
+        </div> <div class="key" data-key="74">
+            <kbd>J</kbd>
+            <span class="sound">snare1</span>
+        </div> 
+        <div class="key" data-key="75">
+            <kbd>K</kbd>
+            <span class="sound">snareroll</span>
+        </div>
+    </div>
+
+    <audio data-key="65" src="sounds/boom.wav"></audio>
+    <audio data-key="83" src="sounds/hihat.wav"></audio>
+    <audio data-key="68" src="sounds/hitom.wav"></audio>
+    <audio data-key="70" src="sounds/lowtom.wav"></audio>
+    <audio data-key="71" src="sounds/ride.wav"></audio>
+    <audio data-key="72" src="sounds/ridebell.wav"></audio>
+    <audio data-key="74" src="sounds/snare1.wav"></audio>
+    <audio data-key="75" src="sounds/snareroll.wav"></audio>
+
+    <script>
+        
+        
+    function removeTransition(e){
+        if (e.propertyName !== 'transform') return;
+        e.target.classList.remove('playing');
+    }
+
+    function playSound(e){
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+            if (!audio) return; //stop the function from running all together
+            
+            key.classList.add('playing');
+            audio.currentTime = 0; //rewind to the start
+            audio.play();
+    }
+
+    const keys = Array.from(document.querySelectorAll('.key'));
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+    window.addEventListener('keydown', playSound );
+    </script>
+</body>
+</html>
